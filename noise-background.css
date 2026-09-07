@@ -1,0 +1,62 @@
+:root {
+  --noise-bg: #070707;
+  --noise-opacity: 0.34;
+  --noise-contrast: 1.08;
+  --noise-blur: 0px;
+  --noise-vignette: 0.68;
+}
+
+.hf-noise-back {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255,255,255,.035), transparent 46%),
+    var(--noise-bg);
+}
+
+.hf-noise-back__canvas {
+  position: absolute;
+  inset: -8%;
+  width: 116%;
+  height: 116%;
+  opacity: var(--noise-opacity);
+  filter: contrast(var(--noise-contrast)) blur(var(--noise-blur));
+  transform: translateZ(0) scale(1.02);
+  will-change: transform, opacity;
+}
+
+.hf-noise-back::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.014) 0,
+      rgba(255,255,255,.014) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  mix-blend-mode: screen;
+  opacity: .34;
+}
+
+.hf-noise-back::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    transparent 38%,
+    rgba(0,0,0,var(--noise-vignette)) 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hf-noise-back__canvas {
+    opacity: calc(var(--noise-opacity) * .55);
+  }
+}
